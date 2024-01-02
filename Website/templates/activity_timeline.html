@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="/static/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.2.0"></script>
+
+    <title>Timeline</title>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <h1 class="text-center">Activities Timeline</h1>
+    <div class="container">
+        <canvas id="ganttChart"></canvas>
+    </div>
+    <script>
+        const activities = {{ activities | tojson | safe }};
+        const ctx = document.getElementById('ganttChart').getContext('2d');
+    
+        const labels = activities.map(a => a.activity_code);
+        const durations = activities.map(a => a.duration);
+    
+        // Tworzenie wykresu
+        new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'Duration of subsequent activities',
+            data: durations,
+            backgroundColor: 'rgba(0, 123, 255, 0.5)' 
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            title: {
+                display: true,
+                text: 'Activities Timeline',
+                font: {
+                    size: 24
+                }
+            },
+            legend: {
+                display: true,
+                position: 'top',
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Duration (minutes)'
+                }
+            },
+            x: {
+                title: {
+                    display: true, 
+                    text: 'Activity'
+                }
+            }
+        },
+        plugins: {
+            zoom: {
+                zoom: {
+                    wheel: {
+                        enabled: true, 
+                    },
+                    pinch: {
+                        enabled: true 
+                    },
+                    mode: 'xy' 
+                },
+                pan: {
+                    enabled: true,
+                    mode: 'xy' 
+                }
+            }
+        }
+    }
+});
+
+    </script>
+        <div class="text-center">
+            <a href="/" class="btn btn-success btn-lg my-4 mx-auto">Back to Home</a>
+        </div>
+</body>
+</html>

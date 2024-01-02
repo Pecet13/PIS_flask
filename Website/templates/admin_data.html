@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Data View</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Logged Data</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Case ID</th>
+            <th>Activity Code</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Created At</th>
+        </tr>
+        {% for log in logs %}
+        <tr>
+            <td>{{ log.id }}</td>
+            <td>{{ log.case_id }}</td>
+            <td>{{ log.activity_code }}</td>
+            <td>{{ log.start_time }}</td>
+            <td>{{ log.end_time }}</td>
+            <td>{{ log.created_at }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

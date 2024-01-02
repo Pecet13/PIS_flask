@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="/static/styles.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Include Chart.js -->
+    <title>Case Count</title>
+</head>
+<body>
+    {% include 'navbar.html' %}
+
+    <div class="container">
+        <!-- <h1>Case Count</h1> -->
+        
+        {% if data %}
+            <canvas id="caseChart"></canvas>
+        {% else %}
+            <div class="no-data-alert">
+                <p>No data available to display the chart. Please check the data source or try again later.</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <script>
+        {% if data %}
+        document.addEventListener('DOMContentLoaded', function () {
+            const data = {{ data | tojson }};
+            const ctx = document.getElementById('caseChart').getContext('2d');
+    
+            // Create a chart using Chart.js
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(data),
+                    datasets: [{
+                        label: 'Count of Cases',
+                        data: Object.values(data),
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Case ID Counts', 
+                                font: {
+                                    size: 24
+                                }
+                            },
+                            legend: {
+                                display: true,
+                                position: 'top',
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Count', 
+                                    font: {
+                                        size: 18
+                                    }
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Case IDs', 
+                                    font: {
+                                        size: 18
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+        {% endif %}
+    </script>
+
+<div class="text-center">
+    <a href="/" class="btn btn-success btn-lg my-4 mx-auto">Back to Home</a>
+</div>
+
+</body>
+</html>

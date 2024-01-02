@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="/static/styles.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Include Chart.js -->
+    <title>Activity Count</title>
+</head>
+<body>
+    {% include 'navbar.html' %}
+
+    <div class="container">
+        <h1 class="text-center">Activity Duration Statistics</h1>
+        <table class="table">
+            <thead>
+                <tr class="text-center">
+                    <th>Activity</th>
+                    <th>Average Duration [hours]</th>
+                    <th>Minimum Duration [hours]</th>
+                    <th>Maximum Duration [hours]</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for activity in activities %}
+                <tr class="text-center">
+                    <td>{{ activity.activity_code }}</td>
+                    <td>{{ "%.3f"|format(activity.average_duration_hours) }}</td>
+                    <td>{{ "%.3f"|format(activity.min_duration_hours) }}</td>
+                    <td>{{ "%.3f"|format(activity.max_duration_hours) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center">
+        <a href="/" class="btn btn-success btn-lg my-4 mx-auto">Back to Home</a>
+    </div>
+</body>
+</html>
